@@ -296,6 +296,53 @@
             font-size: 10px;
         }
 
+        /* HQ Marker Styling (Task Forces) */
+        .hq-marker {
+            background-color: #111827;
+            border: 2px solid #fbbf24;
+            /* amber-400 */
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+            transition: transform 0.2s;
+        }
+
+        .hq-marker i {
+            color: #fbbf24;
+            font-size: 12px;
+        }
+
+        .hq-marker:hover {
+            transform: scale(1.3);
+            z-index: 1000 !important;
+        }
+
+        /* Higher HQ Marker Styling (ทบ. / ทภ.) */
+        .higher-hq-marker {
+            background-color: #7f1d1d;
+            /* dark red */
+            border: 2px solid #fbbf24;
+            /* gold */
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+            transition: transform 0.2s;
+        }
+
+        .higher-hq-marker i {
+            color: #fbbf24;
+            font-size: 14px;
+        }
+
+        .higher-hq-marker:hover {
+            transform: scale(1.3);
+            z-index: 1000 !important;
+        }
+
         /* Strategic Marker (1:50000 Pillars) */
         .strategic-marker {
             width: 0;
@@ -392,6 +439,111 @@
                     <p class="font-mono tracking-widest mt-2">INITIALIZING GIS DATA...</p>
                 </div>
 
+                <!-- Custom Layer Toggles (Eye Icons) -->
+                <div id="layer-toggles"
+                    class="absolute top-4 right-4 w-[240px] max-w-[90vw] z-[1000] bg-gray-900/95 border border-gray-600 rounded-xl shadow-2xl backdrop-blur-sm transition-all duration-300 pointer-events-auto overflow-hidden">
+                    <!-- Header (Clickable for collapse/expand) -->
+                    <div onclick="toggleLayerMenu()" id="layer-menu-header"
+                        class="px-3 py-2.5 border-b border-gray-700 bg-gray-800/80 rounded-t-xl cursor-pointer flex justify-between items-center group">
+                        <span class="text-xs font-bold text-yellow-400"><i class="fas fa-layer-group mr-1.5"></i>
+                            เปิด/ปิด เลเยอร์ที่ตั้ง</span>
+                        <i id="layer-menu-icon"
+                            class="fas fa-chevron-up text-gray-400 text-xs transition-transform duration-300"></i>
+                    </div>
+
+                    <!-- Content Body -->
+                    <div id="layer-menu-content" class="transition-all duration-300 max-h-[500px] opacity-100">
+                        <div class="p-3 flex flex-col gap-3.5 text-xs">
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('higherHqLayerGroup', 'eye-higherHq')">
+                                <div class="flex items-center gap-2.5">
+                                    <span
+                                        class="w-4 h-4 rounded border border-yellow-400 bg-red-900 flex items-center justify-center shrink-0"><i
+                                            class="fas fa-shield-alt text-[8px] text-yellow-400"></i></span>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">บก.ทบ.
+                                        / ทภ.</span>
+                                </div>
+                                <i id="eye-higherHq"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('hqLayerGroup', 'eye-hq')">
+                                <div class="flex items-center gap-2.5">
+                                    <span
+                                        class="w-4 h-4 rounded border border-yellow-400 bg-gray-900 flex items-center justify-center shrink-0"><i
+                                            class="fas fa-star text-[8px] text-yellow-400"></i></span>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">ที่ตั้ง
+                                        บก.กกล.</span>
+                                </div>
+                                <i id="eye-hq"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('hospitalLayerGroup', 'eye-hosp')">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="flex gap-0.5 shrink-0">
+                                        <span
+                                            class="w-3 h-3 rounded-full border border-red-500 bg-gray-900 flex items-center justify-center"><i
+                                                class="fas fa-plus text-[6px] text-red-500"></i></span>
+                                        <span
+                                            class="w-3 h-3 rounded-full border border-green-500 bg-gray-900 flex items-center justify-center"><i
+                                                class="fas fa-plus text-[6px] text-green-500"></i></span>
+                                    </div>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">สถานพยาบาล
+                                        ทบ./รัฐ</span>
+                                </div>
+                                <i id="eye-hosp"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('strategicLayerGroup', 'eye-strat')">
+                                <div class="flex items-center gap-2.5">
+                                    <span
+                                        class="w-0 h-0 border-l-[5px] border-r-[5px] border-b-[8px] border-l-transparent border-r-transparent border-b-amber-500 shrink-0"></span>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">จุดยุทธศาสตร์
+                                        (1:50k)</span>
+                                </div>
+                                <i id="eye-strat"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('borderLayerGroup', 'eye-border')">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-4 border-b-2 border-dashed border-red-500 shrink-0"></span>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">เส้นเขตแดน
+                                        (ไทย-กัมพูชา)</span>
+                                </div>
+                                <i id="eye-border"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between cursor-pointer group"
+                                onclick="toggleMapLayer('pillarLayerGroup', 'eye-pillar')">
+                                <div class="flex items-center gap-2.5">
+                                    <span
+                                        class="w-2 h-3 bg-gray-100 border border-gray-900 border-t-[4px] border-t-red-500 shadow-sm shrink-0"></span>
+                                    <span
+                                        class="text-gray-300 group-hover:text-white transition-colors font-medium">หลักหมุดเขตแดน
+                                        (1-73)</span>
+                                </div>
+                                <i id="eye-pillar"
+                                    class="fas fa-eye text-green-400 text-sm transition-colors group-hover:scale-110"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Detail Side Panel -->
                 <div id="side-panel"
                     class="absolute top-4 right-4 w-[280px] md:w-[340px] max-w-[90vw] bg-gray-900/95 border border-gray-600 rounded-xl shadow-2xl z-[2000] transform translate-x-[120%] transition-transform duration-500 ease-in-out flex flex-col pointer-events-auto max-h-[90%] overflow-y-auto">
@@ -407,10 +559,14 @@
                             <div class="flex items-start gap-3">
                                 <div class="bg-gray-800 p-2 rounded shrink-0"><i
                                         class="fas fa-building text-gray-400 w-4 text-center"></i></div>
-                                <div>
-                                    <span class="block text-gray-500 text-xs font-bold uppercase">ที่ตั้งกองบัญชาการ
+                                <div class="w-full">
+                                    <span
+                                        class="block text-gray-500 text-xs font-bold uppercase mb-1">ที่ตั้งกองบัญชาการ
                                         (HQ)</span>
-                                    <span id="panel-hq" class="font-medium text-gray-200"></span>
+                                    <div id="panel-hq"
+                                        class="cursor-pointer bg-gray-800/60 p-2 rounded border border-gray-700 hover:border-yellow-400 hover:bg-gray-800 transition-all flex items-center justify-between group">
+                                        <!-- Populated by JS -->
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
@@ -470,6 +626,18 @@
                     class="flex flex-wrap justify-center items-center gap-4 md:gap-6 mt-3 pt-3 border-t border-yellow-800/50 text-xs text-gray-400">
                     <div class="flex items-center gap-2">
                         <span
+                            class="w-4 h-4 rounded border border-yellow-400 bg-red-900 flex items-center justify-center"><i
+                                class="fas fa-shield-alt text-[8px] text-yellow-400"></i></span>
+                        บก.ทบ. / ทภ.
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
+                            class="w-4 h-4 rounded border border-yellow-400 bg-gray-900 flex items-center justify-center"><i
+                                class="fas fa-star text-[8px] text-yellow-400"></i></span>
+                        ที่ตั้ง บก.กกล.
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span
                             class="w-3 h-3 rounded-full border border-red-500 bg-gray-900 flex items-center justify-center"><i
                                 class="fas fa-plus text-[6px] text-red-500"></i></span>
                         รพ./รพ.สนาม (ทบ.)
@@ -489,10 +657,6 @@
                         <span
                             class="w-2 h-3 bg-gray-100 border border-gray-900 border-t-[4px] border-t-red-500 shadow-sm"></span>
                         หลักหมุดเขตแดน
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-4 border-b-2 border-dashed border-amber-400"></span>
-                        เส้นทาง/ระยะทาง
                     </div>
                 </div>
             </div>
@@ -514,6 +678,15 @@
     <script>
         // 1. Data Definitions
 
+        // Higher HQs (RTA HQ and Army Areas 1-4)
+        const higherHQs = [
+            { name: "กองบัญชาการกองทัพบก (บก.ทบ.)", desc: "ศูนย์กลางการบังคับบัญชา", lat: 13.764, lng: 100.505 },
+            { name: "กองทัพภาคที่ 1 (ทภ.1)", desc: "รับผิดชอบพื้นที่ภาคกลางและภาคตะวันออก", lat: 13.766, lng: 100.510 },
+            { name: "กองทัพภาคที่ 2 (ทภ.2)", desc: "รับผิดชอบพื้นที่ภาคตะวันออกเฉียงเหนือ", lat: 14.965, lng: 102.095 },
+            { name: "กองทัพภาคที่ 3 (ทภ.3)", desc: "รับผิดชอบพื้นที่ภาคเหนือ", lat: 16.818, lng: 100.267 },
+            { name: "กองทัพภาคที่ 4 (ทภ.4)", desc: "รับผิดชอบพื้นที่ภาคใต้", lat: 8.441, lng: 99.962 }
+        ];
+
         // Task Forces with HQ Coordinates, Military Hospitals, and Gov Hospitals
         const taskForces = [
             {
@@ -524,8 +697,10 @@
                 column: 'left',
                 provinces: ['ตาก', 'แม่ฮ่องสอน'],
                 hq: 'ค่ายวชิรปราการ อ.เมือง จ.ตาก',
-                hqLat: 16.865, hqLng: 99.125, // พิกัดกองบัญชาการ (อ้างอิง)
+                hqLat: 16.865, hqLng: 99.125,
                 length: 'ชายแดนทางบก ประมาณ 537 กม.',
+                desc: 'รับผิดชอบพื้นที่แนวชายแดนไทย-เมียนมา ในเขตรับผิดชอบ 2 จังหวัด ได้แก่ จ.ตาก และ จ.แม่ฮ่องสอน',
+                detailedDesc: 'มีภารกิจหลักในการป้องกันประเทศ การจัดระเบียบพื้นที่ชายแดน สกัดกั้นยาเสพติด และการลักลอบเข้าเมืองโดยผิดกฎหมายในภูมิประเทศป่าเขาสูงชันสลับซับซ้อน',
                 hospitals: [
                     { name: 'รพ.ค่ายวชิรปราการ (จ.ตาก)', lat: 16.865, lng: 99.125 },
                     { name: 'รพ.สนาม มทบ.310 (จ.ตาก)', lat: 16.850, lng: 99.130 }
@@ -545,6 +720,8 @@
                 hq: 'ค่ายสุรสีห์ อ.เมือง จ.กาญจนบุรี',
                 hqLat: 14.072, hqLng: 99.458,
                 length: 'ชายแดนทางบก ประมาณ 846 กม.',
+                desc: 'รับผิดชอบพื้นที่แนวชายแดนไทย-เมียนมา ในเขตรับผิดชอบ 4 จังหวัด ได้แก่ จ.กาญจนบุรี, จ.ราชบุรี, จ.เพชรบุรี และ จ.ประจวบคีรีขันธ์',
+                detailedDesc: 'รับผิดชอบชายแดนตะวันตกตลอดแนวเทือกเขาตะนาวศรี ดูแลความมั่นคงแนวพรมแดน จุดผ่อนปรนการค้า และควบคุมเส้นทางช่องทางธรรมชาติที่สำคัญ',
                 hospitals: [
                     { name: 'รพ.ค่ายภาณุรังษี (จ.ราชบุรี)', lat: 13.543, lng: 99.805 },
                     { name: 'รพ.สนาม กช. กรมการทหารช่าง (จ.ราชบุรี)', lat: 13.530, lng: 99.815 }
@@ -564,6 +741,8 @@
                 hq: 'ค่ายเทพสตรีศรีสุนทร อ.ทุ่งสง จ.นครศรีธรรมราช',
                 hqLat: 8.169, hqLng: 99.638,
                 length: 'ชายแดนทางบกและทางน้ำ',
+                desc: 'รับผิดชอบพื้นที่แนวชายแดนไทย-เมียนมา ฝั่งอันดามัน 2 จังหวัด (ระนอง, ชุมพร) และพื้นที่แนวชายแดนไทย-มาเลเซีย 4 จังหวัด (สตูล, สงขลา, ยะลา, นราธิวาส)',
+                detailedDesc: 'ดูแลพื้นที่ชายแดนฝั่งทะเลอันดามัน และพรมแดนตอนใต้ ป้องกันการกระทำผิดกฎหมายข้ามชาติ สินค้าหนีภาษี และรักษาความมั่นคงร่วมกับประเทศเพื่อนบ้าน',
                 hospitals: [
                     { name: 'รพ.ค่ายเทพสตรี (จ.นครศรีธรรมราช)', lat: 8.169, lng: 99.638 },
                     { name: 'รพ.ค่ายวชิราวุธ (จ.นครศรีธรรมราช)', lat: 8.441, lng: 99.962 },
@@ -586,6 +765,8 @@
                 hq: 'ค่ายโชติวัตร อ.แม่ริม จ.เชียงใหม่',
                 hqLat: 18.847, hqLng: 98.956,
                 length: 'ชายแดนทางบก ประมาณ 933 กม.',
+                desc: 'รับผิดชอบพื้นที่ชายแดนไทย-เมียนมา 2 จังหวัด (เชียงใหม่, เชียงราย) และพื้นที่รับผิดชอบด้านไทย-ลาว 5 จังหวัด (เชียงราย, พะเยา, น่าน, อุตรดิตถ์, พิษณุโลก)',
+                detailedDesc: 'เฝ้าระวังแนวชายแดนภาคเหนือตอนบน มีภารกิจสำคัญในการสกัดกั้นขบวนการค้ายาเสพติดข้ามชาติ การตัดไม้ทำลายป่า และอาชญากรรมชายแดนอื่นๆ',
                 hospitals: [
                     { name: 'รพ.ค่ายกาวิละ (จ.เชียงใหม่)', lat: 18.775, lng: 99.014 },
                     { name: 'รพ.ค่ายเม็งรายมหาราช (จ.เชียงราย)', lat: 19.919, lng: 99.824 },
@@ -607,6 +788,8 @@
                 hq: 'ค่ายพระยาสุนทรธรรมธาดา อ.เมือง จ.อุดรธานี',
                 hqLat: 17.304, hqLng: 102.815,
                 length: 'ตามแนวลำน้ำโขงและพื้นดิน 730 กม.',
+                desc: 'รับผิดชอบพื้นที่แนวชายแดนไทย-ลาว ในเขตรับผิดชอบ 5 จังหวัด ได้แก่ จ.เลย, จ.หนองคาย, จ.บึงกาฬ, จ.นครพนม และ จ.มุกดาหาร',
+                detailedDesc: 'ดูแลพื้นที่ชายแดนภาคอีสานตอนบน สกัดกั้นยาเสพติด สินค้าเถื่อน และบูรณาการความร่วมมือกับประเทศเพื่อนบ้านในการลาดตระเวนตามแนวลำน้ำโขง',
                 hospitals: [
                     { name: 'รพ.ค่ายประจักษ์ศิลปาคม (จ.อุดรธานี)', lat: 17.394, lng: 102.815 },
                     { name: 'รพ.ค่ายศรีสองรัก (จ.เลย)', lat: 17.473, lng: 101.737 },
@@ -628,6 +811,8 @@
                 hq: 'ค่ายวีรวัฒน์โยธิน อ.เมือง จ.สุรินทร์',
                 hqLat: 14.894, hqLng: 103.491,
                 length: 'ชายแดนทางบก ประมาณ 752 กม.',
+                desc: 'รับผิดชอบพื้นที่ชายแดนไทย-กัมพูชา 5 จังหวัด ได้แก่ จ.อำนาจเจริญ, จ.อุบลราชธานี, จ.ศรีสะเกษ, จ.สุรินทร์ และ จ.บุรีรัมย์',
+                detailedDesc: 'รับผิดชอบพรมแดนด้านตะวันออกเฉียงเหนือตอนล่าง ป้องกันการลุกล้ำอธิปไตย ดูแลพื้นที่ทับซ้อน การลักลอบตัดไม้พะยูง และการเก็บกู้ทุ่นระเบิด',
                 hospitals: [
                     { name: 'รพ.ค่ายสุรนารี (จ.นครราชสีมา)', lat: 14.970, lng: 102.091 },
                     { name: 'รพ.ค่ายสรรพสิทธิประสงค์ (จ.อุบลราชธานี)', lat: 15.197, lng: 104.832 },
@@ -649,6 +834,8 @@
                 hq: 'ค่ายสุรสิงหนาท อ.อรัญประเทศ จ.สระแก้ว',
                 hqLat: 13.682, hqLng: 102.502,
                 length: 'ชายแดนทางบก ประมาณ 252 กม.',
+                desc: 'รับผิดชอบพื้นที่แนวชายแดนไทย-กัมพูชา 3 จังหวัด ได้แก่ จ.สระแก้ว, จ.จันทบุรี, จ.ตราด',
+                detailedDesc: 'รักษาความมั่นคงชายแดนด้านตะวันออก ดูแลจุดผ่านแดนถาวรที่สำคัญทางเศรษฐกิจ ป้องกันอาชญากรรมข้ามชาติ การลักลอบนำเข้ารถยนต์ และแรงงานผิดกฎหมาย',
                 hospitals: [
                     { name: 'รพ.ค่ายสุรสิงหนาท (จ.สระแก้ว)', lat: 13.682, lng: 102.502 },
                     { name: 'รพ.ค่ายจักรพงษ์ (จ.ปราจีนบุรี)', lat: 14.053, lng: 101.382 },
@@ -701,13 +888,72 @@
         // Global Variables
         let activeForceId = null;
         let map, geojsonLayer;
+        let hqLayerGroup;
+        let higherHqLayerGroup;
         let hospitalLayerGroup;
         let borderLayerGroup;
         let strategicLayerGroup;
         let pillarLayerGroup;
         let distanceLineGroup;
 
+        // Function to toggle the collapse/expand of the layer menu itself
+        window.toggleLayerMenu = function () {
+            const content = document.getElementById('layer-menu-content');
+            const icon = document.getElementById('layer-menu-icon');
+            const header = document.getElementById('layer-menu-header');
+
+            if (content.classList.contains('max-h-0')) {
+                // Expand
+                content.classList.remove('max-h-0', 'opacity-0');
+                content.classList.add('max-h-[500px]', 'opacity-100');
+                icon.classList.remove('rotate-180');
+                header.classList.add('border-b', 'border-gray-700');
+            } else {
+                // Collapse
+                content.classList.remove('max-h-[500px]', 'opacity-100');
+                content.classList.add('max-h-0', 'opacity-0');
+                icon.classList.add('rotate-180');
+                header.classList.remove('border-b', 'border-gray-700'); // Remove border when collapsed for clean look
+            }
+        };
+
+        // Function to dynamically toggle map layers with eye icons
+        window.toggleMapLayer = function (layerName, eyeId) {
+            let layer;
+            if (layerName === 'higherHqLayerGroup') layer = higherHqLayerGroup;
+            if (layerName === 'hqLayerGroup') layer = hqLayerGroup;
+            if (layerName === 'hospitalLayerGroup') layer = hospitalLayerGroup;
+            if (layerName === 'borderLayerGroup') layer = borderLayerGroup;
+            if (layerName === 'strategicLayerGroup') layer = strategicLayerGroup;
+            if (layerName === 'pillarLayerGroup') layer = pillarLayerGroup;
+
+            const eyeIcon = document.getElementById(eyeId);
+            if (!layer || !eyeIcon) return;
+
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer);
+                eyeIcon.classList.remove('fa-eye', 'text-green-400');
+                eyeIcon.classList.add('fa-eye-slash', 'text-gray-500');
+            } else {
+                map.addLayer(layer);
+                eyeIcon.classList.remove('fa-eye-slash', 'text-gray-500');
+                eyeIcon.classList.add('fa-eye', 'text-green-400');
+            }
+        };
+
         // Custom Markers
+        const hqIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div class="hq-marker w-6 h-6"><i class="fas fa-star"></i></div>`,
+            iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12]
+        });
+
+        const higherHqIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: `<div class="higher-hq-marker w-8 h-8"><i class="fas fa-shield-alt"></i></div>`,
+            iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -16]
+        });
+
         const militaryHospitalIcon = L.divIcon({
             className: 'custom-div-icon',
             html: `<div class="tactical-hospital-marker w-5 h-5"><i class="fas fa-plus"></i></div>`,
@@ -732,7 +978,6 @@
             iconSize: [8, 12], iconAnchor: [4, 12], popupAnchor: [0, -12]
         });
 
-        // Function: Generate 73 Pillars evenly
         function generateBorderPillars(coords, count) {
             const pillars = [];
             let totalDist = 0;
@@ -771,7 +1016,6 @@
             return pillars;
         }
 
-        // Generate robust HTML popup content 
         function getPopupContent(hosp, tf, type, distanceKm = null) {
             const isMil = (type === 'mil');
             const colorClass = isMil ? 'text-red-400' : 'text-green-400';
@@ -793,7 +1037,6 @@
             return html;
         }
 
-        // Reset all popup contents to normal state
         function resetAllPopups() {
             taskForces.forEach(tf => {
                 if (tf.hospitals) tf.hospitals.forEach(h => {
@@ -819,7 +1062,7 @@
                          onclick="zoomToForce('${tf.id}')"
                          onmouseenter="if(!activeForceId) highlightForce('${tf.id}')"
                          onmouseleave="if(!activeForceId) resetHighlight()">
-                        <div class="flex items-center justify-between mb-2 pointer-events-none">
+                        <div class="flex items-center justify-between mb-3 pointer-events-none">
                             <div class="flex flex-col">
                                 <div class="flex text-yellow-400 gap-1 mb-1">${starsHtml}</div>
                                 <h2 class="text-xl font-bold" style="color: ${tf.color};">${tf.name}</h2>
@@ -828,7 +1071,13 @@
                                 <i class="fas fa-search-plus text-xl"></i>
                             </div>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed pointer-events-none">${tf.hq}</p>
+                        <div class="mb-3 text-sm text-gray-300 pointer-events-none flex items-start gap-2">
+                            <i class="fas fa-star text-yellow-500 mt-1"></i>
+                            <span><strong>ที่ตั้งหน่วย:</strong> ${tf.hq}</span>
+                        </div>
+                        <div class="bg-gray-100 rounded-md p-2.5 shadow-inner pointer-events-none">
+                            <p class="text-gray-800 text-[13px] font-semibold leading-relaxed">${tf.desc}</p>
+                        </div>
                     </div>
                 `;
 
@@ -848,11 +1097,40 @@
             L.control.zoom({ position: 'topleft' }).addTo(map);
 
             // Layer Groups
+            hqLayerGroup = L.layerGroup().addTo(map);
+            higherHqLayerGroup = L.layerGroup().addTo(map);
             hospitalLayerGroup = L.layerGroup().addTo(map);
             borderLayerGroup = L.layerGroup().addTo(map);
             strategicLayerGroup = L.layerGroup().addTo(map);
             pillarLayerGroup = L.layerGroup().addTo(map);
             distanceLineGroup = L.layerGroup().addTo(map);
+
+            // Populate Higher HQ Markers (ทบ. และ ทภ.1-4)
+            higherHQs.forEach(hq => {
+                const marker = L.marker([hq.lat, hq.lng], { icon: higherHqIcon });
+                marker.bindPopup(`
+                    <div class="text-center p-1">
+                        <div class="font-bold text-yellow-400 text-base mb-1"><i class="fas fa-shield-alt"></i> ${hq.name}</div>
+                        <div class="text-sm text-gray-300">${hq.desc}</div>
+                    </div>
+                `, { closeButton: true });
+                marker.addTo(higherHqLayerGroup);
+            });
+
+            // Populate Task Force HQ Markers
+            taskForces.forEach(tf => {
+                if (tf.hqLat && tf.hqLng) {
+                    const marker = L.marker([tf.hqLat, tf.hqLng], { icon: hqIcon });
+                    marker.bindPopup(`
+                        <div class="text-center p-1">
+                            <div class="font-bold text-yellow-400 text-sm mb-1"><i class="fas fa-star"></i> ${tf.hq}</div>
+                            <div class="text-xs text-gray-400">ที่ตั้งกองบัญชาการ กองกำลัง</div>
+                            <div class="text-xs text-gray-500 mt-1">หน่วยรับผิดชอบ: <span style="color:${tf.color}">${tf.name}</span></div>
+                        </div>
+                    `, { closeButton: true });
+                    marker.addTo(hqLayerGroup);
+                }
+            });
 
             // Populate Border Lines & Strategic Pins
             L.polyline(thaiCamBorderCoords, {
@@ -885,7 +1163,6 @@
 
             // Populate Hospital Markers
             taskForces.forEach(tf => {
-                // Military Hospitals (Red)
                 if (tf.hospitals) {
                     tf.hospitals.forEach(hosp => {
                         const marker = L.marker([hosp.lat, hosp.lng], { icon: militaryHospitalIcon });
@@ -894,7 +1171,6 @@
                         hosp.markerRef = marker;
                     });
                 }
-                // Gov Hospitals (Green)
                 if (tf.govHospitals) {
                     tf.govHospitals.forEach(hosp => {
                         const marker = L.marker([hosp.lat, hosp.lng], { icon: govHospitalIcon });
@@ -905,14 +1181,10 @@
                 }
             });
 
+            // Set up Layer Control (Base Maps Only, Overlays are in custom UI)
             L.control.layers(
                 { "Tactical Map": tacticalDark, "Satellite": satellite },
-                {
-                    "โรงพยาบาลและสถานพยาบาล": hospitalLayerGroup,
-                    "เส้นเขตแดน ไทย-กัมพูชา": borderLayerGroup,
-                    "จุดยุทธศาสตร์ (1:50k)": strategicLayerGroup,
-                    "หลักหมุดเขตแดน (1-73)": pillarLayerGroup
-                },
+                null,
                 { position: 'bottomleft' }
             ).addTo(map);
 
@@ -1030,8 +1302,8 @@
             activeForceId = forceId;
             document.getElementById('tooltip').style.opacity = 0;
             highlightForce(forceId);
-            resetAllPopups(); // Reset popups in case distance was calculated earlier
-            distanceLineGroup.clearLayers(); // Clear old distance lines
+            resetAllPopups();
+            distanceLineGroup.clearLayers();
 
             const forceLayers = [];
             geojsonLayer.eachLayer(function (layer) {
@@ -1057,36 +1329,27 @@
             const force = taskForces.find(tf => tf.id === forceId);
             const hosp = (type === 'mil') ? force.hospitals[hospIndex] : force.govHospitals[hospIndex];
 
-            // Calculate Distance using Leaflet built-in function (meters)
             const hqLatLng = L.latLng(force.hqLat, force.hqLng);
             const hospLatLng = L.latLng(hosp.lat, hosp.lng);
             const distMeters = hqLatLng.distanceTo(hospLatLng);
             const distKm = (distMeters / 1000).toFixed(1);
 
-            // Clear previous lines and reset popups
             distanceLineGroup.clearLayers();
             resetAllPopups();
 
-            // 1. Draw HQ Marker
             L.circleMarker(hqLatLng, {
                 radius: 6, color: '#fbbf24', fillColor: '#111827', fillOpacity: 1, weight: 2
             }).bindTooltip("บก. กองกำลัง (จุดเริ่มต้น)", { direction: 'top', className: 'bg-gray-800 text-white text-xs border-gray-600' })
                 .addTo(distanceLineGroup);
 
-            // 2. Draw Distance Line (Polyline)
             const routeLine = L.polyline([hqLatLng, hospLatLng], {
-                color: '#fbbf24', // Amber/Yellow
-                weight: 3,
-                dashArray: '8, 8',
-                opacity: 0.8
+                color: '#fbbf24', weight: 3, dashArray: '8, 8', opacity: 0.8
             }).addTo(distanceLineGroup);
 
-            // Add distance label exactly in the middle of the line
             routeLine.bindTooltip(`ระยะทางจัดส่ง: ${distKm} กม.`, {
                 permanent: true, direction: 'center', className: 'distance-tooltip'
             });
 
-            // Adjust Camera to show both HQ and Hospital
             const bounds = L.latLngBounds(hqLatLng, hospLatLng);
             const isMobile = window.innerWidth < 768;
             map.fitBounds(bounds, {
@@ -1095,23 +1358,59 @@
                 maxZoom: 9, animate: true, duration: 1
             });
 
-            // Set dynamic popup content with distance
             if (hosp.markerRef) {
                 hosp.markerRef.setPopupContent(getPopupContent(hosp, force, type, distKm));
                 setTimeout(() => hosp.markerRef.openPopup(), 1000);
             }
         };
 
+        // --- FOCUS ON HQ FROM PANEL ---
+        window.focusHQ = function (forceId) {
+            const force = taskForces.find(tf => tf.id === forceId);
+            if (!force || !force.hqLat) return;
+
+            distanceLineGroup.clearLayers();
+            resetAllPopups();
+
+            const hqLatLng = L.latLng(force.hqLat, force.hqLng);
+            const isMobile = window.innerWidth < 768;
+            const targetPoint = map.project(hqLatLng, 9).subtract(isMobile ? [0, 0] : [170, 0]);
+            const targetLatLng = map.unproject(targetPoint, 9);
+
+            map.flyTo(targetLatLng, 9, { animate: true, duration: 1 });
+
+            setTimeout(() => {
+                hqLayerGroup.eachLayer(layer => {
+                    const latlng = layer.getLatLng();
+                    if (latlng.lat === force.hqLat && latlng.lng === force.hqLng) {
+                        layer.openPopup();
+                    }
+                });
+            }, 1000);
+        };
+
         // --- Panel Display ---
         function showSidePanel(force) {
             const panel = document.getElementById('side-panel');
+            const layerToggles = document.getElementById('layer-toggles');
+
+            // ซ่อนเมนูเปิด-ปิดตาเมื่อเปิด Side Panel
+            if (layerToggles) {
+                layerToggles.classList.add('opacity-0', 'pointer-events-none', 'translate-x-10');
+            }
 
             document.getElementById('panel-title').innerText = force.name;
             document.getElementById('panel-title').style.color = force.color;
-            document.getElementById('panel-hq').innerText = force.hq;
+
+            const hqEl = document.getElementById('panel-hq');
+            hqEl.innerHTML = `
+                <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-yellow-400 w-3"></i> <span class="font-medium text-gray-200">${force.hq}</span></div>
+                <i class="fas fa-location-arrow text-gray-600 group-hover:text-yellow-400"></i>
+            `;
+            hqEl.setAttribute('onclick', `focusHQ('${force.id}')`);
+
             document.getElementById('panel-length').innerText = force.length;
 
-            // Military Hospitals
             const milList = document.getElementById('panel-hospitals');
             if (force.hospitals && force.hospitals.length > 0) {
                 milList.innerHTML = force.hospitals.map((h, index) =>
@@ -1123,7 +1422,6 @@
                 ).join('');
             } else { milList.innerHTML = `<li class="text-gray-500 italic p-1">ไม่มีข้อมูล</li>`; }
 
-            // Government Hospitals
             const govList = document.getElementById('panel-gov-hospitals');
             if (force.govHospitals && force.govHospitals.length > 0) {
                 govList.innerHTML = force.govHospitals.map((h, index) =>
@@ -1145,11 +1443,17 @@
             activeForceId = null;
             map.closePopup();
             distanceLineGroup.clearLayers();
-            resetAllPopups(); // เคลียร์สถานะระยะทางบนกล่องข้อความทั้งหมด
+            resetAllPopups();
 
             const panel = document.getElementById('side-panel');
             panel.classList.remove('translate-x-0');
             panel.classList.add('translate-x-[120%]');
+
+            // แสดงเมนูเปิด-ปิดตากลับคืนมา
+            const layerToggles = document.getElementById('layer-toggles');
+            if (layerToggles) {
+                layerToggles.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-10');
+            }
 
             if (map) map.flyTo([13.7367, 100.5231], 5.8, { animate: true, duration: 0.8 });
             resetHighlight();
